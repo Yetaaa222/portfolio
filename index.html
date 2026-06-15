@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mutumwenu Yeta — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0e14;
+            --surface: #11161d;
+            --surface-2: #161d26;
+            --border: #232c38;
+            --text: #dbe3ec;
+            --muted: #7e8b99;
+            --accent: #4fcbe0;
+            --accent-dim: rgba(79, 203, 224, 0.12);
+            --ok: #8fd16b;
+            --ok-dim: rgba(143, 209, 107, 0.12);
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Inter', sans-serif;
+            --maxw: 1080px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .wrap {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ---------- NAV ---------- */
+        header.nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(11, 14, 20, 0.78);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--mono);
+            font-size: 14px;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        .nav-brand .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--ok);
+            box-shadow: 0 0 0 3px var(--ok-dim);
+            flex-shrink: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            font-family: var(--mono);
+            font-size: 13px;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-clock {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: var(--mono);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        @media (max-width:760px) {
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: var(--surface);
+                border-bottom: 1px solid var(--border);
+                padding: 14px 24px;
+                gap: 14px;
+                display: none;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-clock {
+                display: none;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+        }
+
+        /* ---------- LAYOUT HELPERS ---------- */
+        section {
+            padding: 96px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 18px;
+            height: 1px;
+            background: var(--accent);
+            display: inline-block;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: var(--mono);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text);
+        }
+
+        h2 {
+            font-size: clamp(24px, 4vw, 32px);
+            margin-bottom: 8px;
+        }
+
+        .section-sub {
+            color: var(--muted);
+            margin-bottom: 48px;
+            max-width: 560px;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ---------- TERMINAL WINDOW ---------- */
+        .term {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px -30px rgba(0, 0, 0, 0.6);
+        }
+
+        .term-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .term-bar .tdot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .term-bar .tdot:nth-child(1) {
+            background: #e0605a;
+        }
+
+        .term-bar .tdot:nth-child(2) {
+            background: #e0b85a;
+        }
+
+        .term-bar .tdot:nth-child(3) {
+            background: #8fd16b;
+        }
+
+        .term-title {
+            margin-left: 8px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .term-body {
+            padding: 24px;
+            font-family: var(--mono);
+            font-size: 13.5px;
+            line-height: 1.9;
+        }
+
+        .term-row {
+            display: flex;
+            gap: 14px;
+        }
+
+        .term-key {
+            color: var(--muted);
+            min-width: 108px;
+            flex-shrink: 0;
+        }
+
+        .term-val {
+            color: var(--text);
+        }
+
+        .term-val.accent {
+            color: var(--accent);
+        }
+
+        .term-val.ok {
+            color: var(--ok);
+        }
+
+        /* ---------- AVATAR ---------- */
+        .avatar {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            box-shadow: 0 0 0 4px var(--accent-dim);
+            margin-bottom: 24px;
+            overflow: hidden;
+            position: relative;
+            background: var(--surface);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .avatar-initials {
+            display: none;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--mono);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .avatar.fallback .avatar-initials {
+            display: flex;
+        }
+
+        /* ---------- HERO ---------- */
+        #hero {
+            padding-top: 160px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .hero-name {
+            font-size: clamp(34px, 6vw, 52px);
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero-name .accent {
+            color: var(--accent);
+        }
+
+        .hero-role {
+            font-family: var(--mono);
+            color: var(--muted);
+            font-size: clamp(14px, 2vw, 16px);
+            margin-bottom: 24px;
+        }
+
+        .hero-bio {
+            color: var(--text);
+            max-width: 480px;
+            margin-bottom: 32px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: var(--mono);
+            font-size: 13px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: border-color 0.2s ease, background 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent-dim);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-primary:hover {
+            background: rgba(79, 203, 224, 0.2);
+            text-decoration: none;
+        }
+
+        .btn-ghost {
+            color: var(--text);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 9px;
+            height: 1.1em;
+            background: var(--accent);
+            vertical-align: text-bottom;
+            margin-left: 2px;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @media (max-width:860px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+
+            #hero {
+                padding-top: 120px;
+            }
+        }
+
+        /* ---------- ABOUT ---------- */
+        #about .about-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 48px;
+        }
+
+        #about p {
+            color: var(--text);
+            margin-bottom: 16px;
+            max-width: 540px;
+        }
+
+        #about p:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            padding: 20px;
+        }
+
+        .stat-card+.stat-card {
+            margin-top: 14px;
+        }
+
+        .stat-num {
+            font-family: var(--mono);
+            font-size: 26px;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        @media (max-width:860px) {
+            #about .about-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---------- SKILLS ---------- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .skill-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            padding: 22px;
+        }
+
+        .skill-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+            gap: 12px;
+        }
+
+        .skill-name {
+            font-family: var(--mono);
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .skill-bars {
+            display: flex;
+            gap: 3px;
+            align-items: flex-end;
+        }
+
+        .skill-bars i {
+            display: block;
+            width: 5px;
+            background: var(--border);
+            border-radius: 1px;
+        }
+
+        .skill-bars i:nth-child(1) {
+            height: 8px;
+        }
+
+        .skill-bars i:nth-child(2) {
+            height: 12px;
+        }
+
+        .skill-bars i:nth-child(3) {
+            height: 16px;
+        }
+
+        .skill-bars i:nth-child(4) {
+            height: 20px;
+        }
+
+        .skill-bars i:nth-child(5) {
+            height: 24px;
+        }
+
+        .skill-bars i.on {
+            background: var(--accent);
+        }
+
+        .skill-desc {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        @media (max-width:760px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---------- PROJECTS ---------- */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .project-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 24px;
+            transition: border-color 0.2s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+        }
+
+        .project-port {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .project-port .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--ok);
+            margin-top: 6px;
+            font-size: 12px;
+        }
+
+        .project-port .status .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--ok);
+            box-shadow: 0 0 0 3px var(--ok-dim);
+        }
+
+        .project-title {
+            font-family: var(--mono);
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .project-desc {
+            color: var(--muted);
+            margin-bottom: 12px;
+            max-width: 560px;
+        }
+
+        .tag-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--accent);
+            background: var(--accent-dim);
+            border: 1px solid rgba(79, 203, 224, 0.25);
+            border-radius: 5px;
+            padding: 3px 8px;
+        }
+
+        @media (max-width:640px) {
+            .project-card {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .project-port {
+                order: 2;
+                padding-top: 6px;
+                border-top: 1px solid var(--border);
+            }
+        }
+
+        /* ---------- EDUCATION / LOG ---------- */
+        .log {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .log-entry {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 24px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .log-entry:first-child {
+            border-top: none;
+        }
+
+        .log-time {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--accent);
+        }
+
+        .log-title {
+            font-family: var(--mono);
+            font-size: 15px;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .log-body {
+            color: var(--muted);
+            font-size: 14px;
+            max-width: 600px;
+        }
+
+        @media (max-width:640px) {
+            .log-entry {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+        }
+
+        /* ---------- CONTACT ---------- */
+        #contact .term {
+            max-width: 560px;
+        }
+
+        .conf-line {
+            display: flex;
+            gap: 10px;
+        }
+
+        .conf-key {
+            color: var(--accent);
+        }
+
+        .conf-eq {
+            color: var(--muted);
+        }
+
+        .conf-val {
+            color: var(--text);
+            word-break: break-all;
+        }
+
+        .conf-comment {
+            color: var(--muted);
+        }
+
+        .copy-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-family: var(--mono);
+            font-size: 11px;
+            border-radius: 5px;
+            padding: 3px 8px;
+            cursor: pointer;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            padding: 32px 0 60px;
+            text-align: center;
+            color: var(--muted);
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="nav">
+        <div class="nav-inner">
+            <div class="nav-brand">
+                <span class="dot" aria-hidden="true"></span>
+                yeta@portfolio:~$
+            </div>
+            <nav class="nav-links" id="navLinks">
+                <a href="#about">about</a>
+                <a href="#skills">skills</a>
+                <a href="#projects">projects</a>
+                <a href="#education">education</a>
+                <a href="#contact">contact</a>
+            </nav>
+            <div class="nav-clock" id="clock" aria-label="Current time in Lusaka">Lusaka — --:--:--</div>
+            <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">menu</button>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- HERO -->
+        <section id="hero" class="wrap">
+            <div class="hero-grid">
+                <div>
+                    <div class="avatar" id="avatar">
+                        <img src="linkedin.jpeg" alt="Mutumwenu Yeta"
+                            onerror="this.style.display='none'; this.parentElement.classList.add('fallback');">
+                        <span class="avatar-initials">MY</span>
+                    </div>
+                    <p class="eyebrow">final-year it student · lusaka, zambia</p>
+                    <h1 class="hero-name">Mutumwenu <span class="accent">Yeta</span></h1>
+                    <p class="hero-role">Networking · Cybersecurity · Systems Administration · Web Development</p>
+                    <p class="hero-bio">
+                        BSc Information Technology student at the University of Lusaka, building
+                        a foundation across networks, Linux systems, and security while
+                        shipping real web and mobile projects for clients in Zambia along the way.
+                        Currently completing an internship placement through the B360 Career
+                        Bridge Program.
+                    </p>
+                    <div class="hero-cta">
+                        <a class="btn btn-primary" href="#projects">view projects</a>
+                        <a class="btn btn-ghost" href="#contact">get in touch</a>
+                    </div>
+                </div>
+
+                <div class="term">
+                    <div class="term-bar">
+                        <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
+                        <span class="term-title">yeta@archlinux</span>
+                    </div>
+                    <div class="term-body">
+                        <div class="term-row"><span class="term-key">$ neofetch</span></div>
+                        <div class="term-row" style="margin-top:8px;"><span class="term-key">OS</span><span
+                                class="term-val">Arch Linux x86_64</span></div>
+                        <div class="term-row"><span class="term-key">Host</span><span class="term-val">HP EliteBook 840
+                                G6</span></div>
+                        <div class="term-row"><span class="term-key">Role</span><span class="term-val">BSc IT &mdash;
+                                Final Year, UNILUS</span></div>
+                        <div class="term-row"><span class="term-key">Focus</span><span
+                                class="term-val accent">Networking / Security / SysAdmin / Web</span></div>
+                        <div class="term-row"><span class="term-key">Program</span><span class="term-val">B360 Career
+                                Bridge</span></div>
+                        <div class="term-row"><span class="term-key">Location</span><span class="term-val">Lusaka,
+                                Zambia</span></div>
+                        <div class="term-row"><span class="term-key">Status</span><span class="term-val ok">open to
+                                internships &amp; freelance</span></div>
+                        <div class="term-row"><span class="term-key">Shell</span><span class="term-val">zsh</span></div>
+                        <div class="term-row" style="margin-top:8px;"><span class="term-key">$</span><span
+                                class="term-val"><span class="cursor" aria-hidden="true"></span></span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="wrap reveal">
+            <p class="eyebrow">about</p>
+            <h2>A bit of background</h2>
+            <p class="section-sub">What I'm working on and where I come from.</p>
+
+            <div class="about-grid">
+                <div>
+                    <p>
+                        I'm in my final year of a BSc in Information Technology at the
+                        University of Lusaka, with coursework spanning IT security, systems
+                        administration, and enterprise networking from configuring
+                        Active Directory and DNS/DHCP on Windows Server to designing
+                        multi-site VLAN and VPN topologies in Cisco Packet Tracer.
+                    </p>
+                    <p>
+                        Alongside my studies, I run a small freelance web development
+                        practice, building Bootstrap-based websites for local businesses in
+                        Zambia. My main personal project, <strong>CropIQ</strong>, is a
+                        Flutter mobile app that gives Zambian smallholder farmers AI-powered
+                        crop recommendations based on rainfall, soil, and climate data.
+                    </p>
+                    <p>
+                        I'm currently part of the B360 Career Bridge Program, a structured
+                        internship pipeline connecting students like me with companies in
+                        Europe and I'm always open to internship, junior sysadmin,
+                        or freelance web opportunities.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="stat-card">
+                        <div class="stat-num">2026</div>
+                        <div class="stat-label">expected graduation — UNILUS</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">4</div>
+                        <div class="stat-label">shipped client &amp; personal projects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">Arch</div>
+                        <div class="stat-label">daily driver btw</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills" class="wrap reveal">
+            <p class="eyebrow">skills</p>
+            <h2>Toolkit</h2>
+            <p class="section-sub">Signal strength is a rough guide to depth, not a ceiling &mdash; I'm building all of
+                these.</p>
+
+            <div class="skills-grid">
+
+                <div class="skill-card">
+                    <div class="skill-head">
+                        <span class="skill-name">Networking</span>
+                        <span class="skill-bars" aria-label="proficiency 4 of 5">
+                            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+                        </span>
+                    </div>
+                    <p class="skill-desc">
+                        Subnetting, VLANs, inter-VLAN routing, ACLs, and IPSec VPNs across
+                        multi-site topologies in Cisco Packet Tracer.
+                    </p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-head">
+                        <span class="skill-name">Linux &amp; SysAdmin</span>
+                        <span class="skill-bars" aria-label="proficiency 4 of 5">
+                            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+                        </span>
+                    </div>
+                    <p class="skill-desc">
+                        Arch Linux as a daily driver, plus Windows Server administration:
+                        Active Directory, DNS, DHCP, GPOs, IIS, and SMB shares.
+                    </p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-head">
+                        <span class="skill-name">Security</span>
+                        <span class="skill-bars" aria-label="proficiency 3 of 5">
+                            <i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i>
+                        </span>
+                    </div>
+                    <p class="skill-desc">
+                        Cryptography fundamentals (symmetric/asymmetric, PGP), access
+                        control, and a growing interest in GRC and security hardening.
+                    </p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-head">
+                        <span class="skill-name">Web Development</span>
+                        <span class="skill-bars" aria-label="proficiency 4 of 5">
+                            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+                        </span>
+                    </div>
+                    <p class="skill-desc">
+                        HTML, CSS, Bootstrap 5, and JavaScript for client sites, plus
+                        Flutter/Dart for mobile apps and Git/GitHub for version control.
+                    </p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-head">
+                        <span class="skill-name">Cloud &amp; Backend</span>
+                        <span class="skill-bars" aria-label="proficiency 3 of 5">
+                            <i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i>
+                        </span>
+                    </div>
+                    <p class="skill-desc">
+                        Supabase for auth, databases, and edge functions; integrating
+                        external APIs like the Claude API and Open-Meteo.
+                    </p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-head">
+                        <span class="skill-name">Tools &amp; Workflow</span>
+                        <span class="skill-bars" aria-label="proficiency 4 of 5">
+                            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+                        </span>
+                    </div>
+                    <p class="skill-desc">
+                        Git/GitHub branching workflows, GitHub Pages deployment, and
+                        everyday Linux command-line work.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects" class="wrap reveal">
+            <p class="eyebrow">projects</p>
+            <h2>Recent work</h2>
+            <p class="section-sub">A scan of what I've shipped recently &mdash; personal and client projects.</p>
+
+            <div class="projects-list">
+
+                <div class="project-card">
+                    <div class="project-port">
+                        PORT 8080/tcp
+                        <div class="status"><span class="dot"></span>open</div>
+                    </div>
+                    <div>
+                        <div class="project-title">CropIQ</div>
+                        <p class="project-desc">
+                            An AI-powered mobile app helping Zambian smallholder farmers choose
+                            crops based on rainfall, soil type, temperature, and farm size,
+                            using a weighted scoring engine with seasonal adjustment.
+                        </p>
+                        <div class="tag-row">
+                            <span class="tag">Flutter / Dart</span>
+                            <span class="tag">Supabase</span>
+                            <span class="tag">Claude API</span>
+                            <span class="tag">Open-Meteo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-port">
+                        PORT 443/tcp
+                        <div class="status"><span class="dot"></span>open</div>
+                    </div>
+                    <div>
+                        <div class="project-title">Swim Zambia Academy</div>
+                        <p class="project-desc">
+                            A swim academy website with animated wave dividers, interactive
+                            booking modals, animated stat counters, and a live session-cost
+                            calculator.
+                        </p>
+                        <div class="tag-row">
+                            <span class="tag">Bootstrap 5</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">GitHub Pages</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-port">
+                        PORT 8443/tcp
+                        <div class="status"><span class="dot"></span>open</div>
+                    </div>
+                    <div>
+                        <div class="project-title">Silverestplace Apartment</div>
+                        <p class="project-desc">
+                            A property website for a Lusaka apartment, built to give potential
+                            guests a clean overview of the space, amenities, and how to get in
+                            touch.
+                        </p>
+                        <div class="tag-row">
+                            <span class="tag">Bootstrap 5</span>
+                            <span class="tag">HTML / CSS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-port">
+                        PORT 22/tcp
+                        <div class="status"><span class="dot"></span>open</div>
+                    </div>
+                    <div>
+                        <div class="project-title">GRC Consulting Site</div>
+                        <p class="project-desc">
+                            A professional website for a governance, risk, and compliance
+                            consultant &mdash; built to present services and credentials
+                            clearly to prospective clients.
+                        </p>
+                        <div class="tag-row">
+                            <span class="tag">Bootstrap 5</span>
+                            <span class="tag">HTML / CSS</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- EDUCATION / EXPERIENCE -->
+        <section id="education" class="wrap reveal">
+            <p class="eyebrow">education &amp; experience</p>
+            <h2>Log</h2>
+            <p class="section-sub">A timeline of where I've been studying and working.</p>
+
+            <div class="log">
+                <div class="log-entry">
+                    <div class="log-time">2026</div>
+                    <div>
+                        <div class="log-title">B360 Career Bridge Program</div>
+                        <p class="log-body">
+                            Accepted into a structured internship placement program
+                            connecting UNILUS students with companies in Europe. Completed
+                            the Career Starter Workshop onboarding, signed the program MoU,
+                            and attended the kick-off call.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="log-entry">
+                    <div class="log-time">Ongoing</div>
+                    <div>
+                        <div class="log-title">Freelance Web Developer</div>
+                        <p class="log-body">
+                            Designing and building Bootstrap 5 websites for small businesses
+                            and individual clients in Zambia, alongside coursework and
+                            personal projects.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="log-entry">
+                    <div class="log-time">2022 &ndash; 2026</div>
+                    <div>
+                        <div class="log-title">University of Lusaka (UNILUS)</div>
+                        <p class="log-body">
+                            BSc in Information Technology, final year &mdash; coursework
+                            covering networking, IT security, systems administration, and
+                            software development.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="wrap reveal">
+            <p class="eyebrow">contact</p>
+            <h2>Get in touch</h2>
+            <p class="section-sub">Open to internships, junior sysadmin roles, and freelance web projects.</p>
+
+            <div class="term">
+                <div class="term-bar">
+                    <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
+                    <span class="term-title">contact.conf</span>
+                </div>
+                <div class="term-body">
+                    <div class="conf-line"><span class="conf-comment"># reach out any time</span></div>
+                    <div class="conf-line copy-row">
+                        <span><span class="conf-key">email</span> <span class="conf-eq">=</span> <span class="conf-val"
+                                id="emailVal">myeta2004@gmail.com</span></span>
+                        <button class="copy-btn" id="copyEmail" type="button">copy</button>
+                    </div>
+                    <div class="conf-line"><span class="conf-key">github</span> <span class="conf-eq">=</span> <a
+                            class="conf-val" href="https://github.com/Yetaaa222" target="_blank"
+                            rel="noopener">github.com/Yetaaa222</a></div>
+                    <div class="conf-line"><span class="conf-key">location</span> <span class="conf-eq">=</span> <span
+                            class="conf-val">Lusaka, Zambia</span></div>
+                    <div class="conf-line"><span class="conf-key">status</span> <span class="conf-eq">=</span> <span
+                            class="conf-val ok" style="color:var(--ok);">available_for_internship = true</span></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        &copy; <span id="year"></span> Mutumwenu Yeta &mdash; built with HTML, CSS &amp; JS
+    </footer>
+
+    <script>
+        // mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            const open = navLinks.classList.toggle('open');
+            navToggle.setAttribute('aria-expanded', open);
+        });
+        navLinks.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                navLinks.classList.remove('open');
+                navToggle.setAttribute('aria-expanded', false);
+            }
+        });
+
+        // Lusaka clock (CAT, UTC+2, no DST)
+        function updateClock() {
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const lusaka = new Date(utc + (2 * 3600000));
+            const hh = String(lusaka.getHours()).padStart(2, '0');
+            const mm = String(lusaka.getMinutes()).padStart(2, '0');
+            const ss = String(lusaka.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `Lusaka — ${hh}:${mm}:${ss}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // scroll reveal
+        const revealEls = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        revealEls.forEach(el => observer.observe(el));
+
+        // copy email
+        document.getElementById('copyEmail').addEventListener('click', () => {
+            const val = document.getElementById('emailVal').textContent;
+            navigator.clipboard.writeText(val).then(() => {
+                const btn = document.getElementById('copyEmail');
+                const original = btn.textContent;
+                btn.textContent = 'copied';
+                setTimeout(() => btn.textContent = original, 1500);
+            });
+        });
+
+        // footer year
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+
+</html>
