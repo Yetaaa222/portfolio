@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Mutumwenu Yeta — Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,6 +22,7 @@
             --accent-dim: rgba(79, 203, 224, 0.12);
             --ok: #8fd16b;
             --ok-dim: rgba(143, 209, 107, 0.12);
+            --warn: #e0b85a;
             --mono: 'JetBrains Mono', monospace;
             --sans: 'Inter', sans-serif;
             --maxw: 1080px;
@@ -35,6 +36,7 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 70px;
         }
 
         body {
@@ -43,16 +45,21 @@
             font-family: var(--sans);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            position: relative;
         }
 
         @media (prefers-reduced-motion: reduce) {
+
             html {
                 scroll-behavior: auto;
             }
 
-            * {
-                animation: none !important;
-                transition: none !important;
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
             }
         }
 
@@ -74,6 +81,48 @@
             max-width: var(--maxw);
             margin: 0 auto;
             padding: 0 24px;
+        }
+
+        /* ---------- AMBIENT SCANLINE TEXTURE ---------- */
+        .scan-veil {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            background: repeating-linear-gradient(to bottom,
+                    rgba(79, 203, 224, 0.025) 0px,
+                    rgba(79, 203, 224, 0.025) 1px,
+                    transparent 1px,
+                    transparent 3px);
+            mix-blend-mode: screen;
+        }
+
+        .scan-sweep {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 140px;
+            top: -140px;
+            pointer-events: none;
+            z-index: 2;
+            background: linear-gradient(to bottom, transparent, rgba(79, 203, 224, 0.05), transparent);
+            animation: sweep 14s linear infinite;
+        }
+
+        @keyframes sweep {
+            0% {
+                top: -140px;
+            }
+
+            100% {
+                top: 100vh;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .scan-sweep {
+                display: none;
+            }
         }
 
         /* ---------- NAV ---------- */
@@ -106,6 +155,10 @@
             font-size: 14px;
             color: var(--text);
             white-space: nowrap;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
         }
 
         .nav-brand .dot {
@@ -133,11 +186,24 @@
             text-decoration: none;
         }
 
-        .nav-clock {
+        .nav-hint {
             font-family: var(--mono);
             font-size: 12px;
             color: var(--muted);
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-hint kbd {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1px 6px;
+            background: var(--surface);
         }
 
         .nav-toggle {
@@ -170,7 +236,7 @@
                 display: flex;
             }
 
-            .nav-clock {
+            .nav-hint {
                 display: none;
             }
 
@@ -183,6 +249,7 @@
         section {
             padding: 96px 0;
             border-bottom: 1px solid var(--border);
+            position: relative;
         }
 
         section:last-of-type {
@@ -227,17 +294,6 @@
             color: var(--muted);
             margin-bottom: 48px;
             max-width: 560px;
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(16px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         /* ---------- TERMINAL WINDOW ---------- */
@@ -311,6 +367,108 @@
 
         .term-val.ok {
             color: var(--ok);
+        }
+
+        /* hero terminal (interactive) */
+        #hero-term .term-body {
+            min-height: 320px;
+            max-height: 420px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #hero-term .term-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #hero-term .term-body::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        #bootLog {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        #bootLog .boot-ok {
+            color: var(--ok);
+        }
+
+        #bootLog .boot-dim {
+            color: var(--muted);
+        }
+
+        .term-history {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hist-cmd {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .hist-cmd .prompt-user {
+            color: var(--ok);
+        }
+
+        .hist-cmd .prompt-path {
+            color: var(--accent);
+        }
+
+        .hist-out {
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        .hist-out.hl {
+            color: var(--accent);
+        }
+
+        .term-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: auto;
+            padding-top: 6px;
+        }
+
+        .prompt-static {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .term-input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text);
+            font-family: var(--mono);
+            font-size: 13.5px;
+            caret-color: var(--accent);
+            min-width: 0;
+        }
+
+        .boot-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1em;
+            background: var(--accent);
+            vertical-align: text-bottom;
+            margin-left: 1px;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
         }
 
         /* ---------- AVATAR ---------- */
@@ -389,6 +547,7 @@
             display: flex;
             gap: 14px;
             flex-wrap: wrap;
+            margin-bottom: 30px;
         }
 
         .btn {
@@ -401,6 +560,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            cursor: pointer;
         }
 
         .btn-primary {
@@ -416,28 +576,13 @@
 
         .btn-ghost {
             color: var(--text);
+            background: none;
         }
 
         .btn-ghost:hover {
             border-color: var(--accent);
             color: var(--accent);
             text-decoration: none;
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 9px;
-            height: 1.1em;
-            background: var(--accent);
-            vertical-align: text-bottom;
-            margin-left: 2px;
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
         }
 
         @media (max-width:860px) {
@@ -494,6 +639,52 @@
             letter-spacing: 0.08em;
         }
 
+        /* mini animated topology diagram */
+        .topo-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            padding: 16px 16px 10px;
+            margin-top: 14px;
+        }
+
+        .topo-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+        }
+
+        .topo-card svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .topo-node {
+            fill: var(--surface-2);
+            stroke: var(--border);
+            stroke-width: 1;
+        }
+
+        .topo-link {
+            stroke: var(--border);
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .topo-packet {
+            fill: var(--accent);
+        }
+
+        .topo-node-label {
+            font-family: var(--mono);
+            font-size: 8px;
+            fill: var(--muted);
+        }
+
         @media (max-width:860px) {
             #about .about-grid {
                 grid-template-columns: 1fr;
@@ -505,7 +696,6 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
-
         }
 
         .skill-card {
@@ -513,10 +703,14 @@
             border-radius: 10px;
             background: var(--surface);
             padding: 22px;
+            transition: border-color 0.25s ease;
+        }
+
+        .skill-card:hover {
+            border-color: rgba(79, 203, 224, 0.4);
         }
 
         .skill-head {
-
             display: flex;
             justify-content: space-between;
             align-items: baseline;
@@ -578,11 +772,70 @@
             }
         }
 
-        /* ---------- PROJECTS ---------- */
+        /* ---------- PROJECTS (nmap-styled) ---------- */
+        .scan-head {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--muted);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px 10px 0 0;
+            padding: 14px 20px;
+            border-bottom: none;
+        }
+
+        .scan-head .scan-cmd {
+            color: var(--accent);
+        }
+
+        .scan-head .scan-status {
+            margin-top: 6px;
+            color: var(--ok);
+        }
+
+        .scan-cols {
+            display: none;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 10px 20px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-top: none;
+        }
+
+        .scan-cols span {
+            display: inline-block;
+        }
+
+        .col-port {
+            width: 100px;
+        }
+
+        .col-state {
+            width: 90px;
+        }
+
+        .col-service {
+            width: 160px;
+        }
+
+        @media (min-width:640px) {
+            .scan-cols {
+                display: block;
+            }
+        }
+
         .projects-list {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
         }
 
         .project-link {
@@ -596,29 +849,47 @@
         }
 
         .project-card {
-            border: 1px solid var(--border);
-            border-radius: 10px;
             background: var(--surface);
-            padding: 24px;
+            padding: 22px 24px;
             display: grid;
             grid-template-columns: 120px 1fr;
             gap: 24px;
-            transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+            border-top: 1px solid var(--border);
+            transition: background 0.2s ease;
+            opacity: 0;
+            transform: translateX(-8px);
         }
 
-        .project-card:hover {
-            border-color: var(--accent);
+        .project-link:first-child .project-card {
+            border-top: none;
+        }
+
+        .project-card.scanned {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .project-link:hover .project-card {
             background: var(--surface-2);
-            transform: translateY(-2px);
+        }
+
+        .project-link:hover .port-num {
+            color: var(--accent);
         }
 
         .project-port {
             font-family: var(--mono);
             font-size: 13px;
-            color: var(--muted);
         }
 
-        .project-port .status {
+        .port-num {
+            color: var(--text);
+            font-weight: 700;
+            display: block;
+        }
+
+        .port-state {
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -627,7 +898,7 @@
             font-size: 12px;
         }
 
-        .project-port .status .dot {
+        .port-state .dot {
             width: 7px;
             height: 7px;
             border-radius: 50%;
@@ -785,12 +1056,15 @@
 
 <body>
 
+    <div class="scan-veil" aria-hidden="true"></div>
+    <div class="scan-sweep" aria-hidden="true"></div>
+
     <header class="nav">
         <div class="nav-inner">
-            <div class="nav-brand">
+            <button class="nav-brand" id="brandBtn" type="button" aria-label="Scroll to top">
                 <span class="dot" aria-hidden="true"></span>
                 yeta@portfolio:~$
-            </div>
+            </button>
             <nav class="nav-links" id="navLinks">
                 <a href="#about">about</a>
                 <a href="#skills">skills</a>
@@ -798,7 +1072,7 @@
                 <a href="#education">education</a>
                 <a href="#contact">contact</a>
             </nav>
-            <div class="nav-clock" id="clock" aria-label="Current time in Lusaka">Lusaka — --:--:--</div>
+            <div class="nav-hint">press <kbd>/</kbd> to use the terminal</div>
             <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">menu</button>
         </div>
     </header>
@@ -825,38 +1099,35 @@
                         Bridge Program.
                     </p>
                     <div class="hero-cta">
-                        <a class="btn btn-primary" href="#projects" style="margin-bottom:30px;">view projects</a>
-                        <a class="btn btn-ghost" href="#contact" style="margin-bottom:30px;">get in touch</a>
+                        <a class="btn btn-primary" href="#projects">view projects</a>
+                        <a class="btn btn-ghost" href="#contact">get in touch</a>
                     </div>
                 </div>
 
-                <div class="term" style="margin-bottom : 30px;">
+                <div class="term" id="hero-term">
                     <div class="term-bar">
                         <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
-                        <span class="term-title">yeta@archlinux</span>
+                        <span class="term-title">guest@yeta-portfolio</span>
                     </div>
-                    <div class="term-body">
-                        <div class="term-row"><span class="term-key">$ neofetch</span></div>
-
-                        <div class="term-row"><span class="term-key">Role</span><span class="term-val">BSc IT Graduate, UNILUS</span></div>
-                        <div class="term-row"><span class="term-key">Focus</span><span
-                                class="term-val accent">Networking / Security / SysAdmin / Web</span></div>
-                        <div class="term-row"><span class="term-key">Program</span><span class="term-val">B360 Career
-                                Bridge</span></div>
-                        <div class="term-row"><span class="term-key">Location</span><span class="term-val">Lusaka,
-                                Zambia</span></div>
-                        <div class="term-row"><span class="term-key">Status</span><span class="term-val ok">open to
-                                internships &amp; freelance</span></div>
-                        <div class="term-row"><span class="term-key">Shell</span><span class="term-val">zsh</span></div>
-                        <div class="term-row" style="margin-top:8px;"><span class="term-key">$</span><span
-                                class="term-val"><span class="cursor" aria-hidden="true"></span></span></div>
+                    <div class="term-body" id="termBody">
+                        <div id="bootLog"></div>
+                        <div class="term-history" id="termHistory"></div>
+                        <div class="term-input-row" id="termInputRow" style="display:none;">
+                            <span class="prompt-static"><span style="color:var(--ok);">guest</span><span
+                                    style="color:var(--muted);">@yeta-portfolio</span><span
+                                    style="color:var(--muted);">:</span><span
+                                    style="color:var(--accent);">~$</span></span>
+                            <input class="term-input" id="termInput" type="text" autocomplete="off"
+                                autocapitalize="off" spellcheck="false"
+                                aria-label="Portfolio terminal — type help and press enter">
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ABOUT -->
-        <section id="about" class="wrap reveal">
+        <section id="about" class="wrap">
             <p class="eyebrow" style="margin-top: 30px;">about</p>
             <h2>A bit of background</h2>
             <p class="section-sub">What I'm working on and where I come from.</p>
@@ -890,17 +1161,39 @@
                         <div class="stat-num">2026</div>
                         <div class="stat-label">expected graduation — UNILUS</div>
                     </div>
-                    <div class="stat-card" style="margin-bottom : 30px;">
+                    <div class="stat-card">
                         <div class="stat-num">4</div>
                         <div class="stat-label">personal projects</div>
                     </div>
 
+                    <div class="topo-card">
+                        <div class="topo-label">multi-site topology — packet tracer</div>
+                        <svg viewBox="0 0 280 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path class="topo-link" d="M40,55 L140,25" />
+                            <path class="topo-link" d="M40,55 L140,85" />
+                            <path class="topo-link" d="M140,25 L240,55" />
+                            <path class="topo-link" d="M140,85 L240,55" />
+                            <path class="topo-link" d="M140,25 L140,85" />
+                            <circle class="topo-node" cx="40" cy="55" r="12" />
+                            <text class="topo-node-label" x="40" y="78" text-anchor="middle">HQ</text>
+                            <circle class="topo-node" cx="140" cy="25" r="10" />
+                            <text class="topo-node-label" x="140" y="12" text-anchor="middle">VLAN 10</text>
+                            <circle class="topo-node" cx="140" cy="85" r="10" />
+                            <text class="topo-node-label" x="140" y="103" text-anchor="middle">VLAN 20</text>
+                            <circle class="topo-node" cx="240" cy="55" r="12" />
+                            <text class="topo-node-label" x="240" y="78" text-anchor="middle">Branch</text>
+                            <circle class="topo-packet" r="3">
+                                <animateMotion dur="4.5s" repeatCount="indefinite"
+                                    path="M40,55 L140,25 L240,55 L140,85 L40,55" />
+                            </circle>
+                        </svg>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- SKILLS -->
-        <section id="skills" class="wrap reveal">
+        <section id="skills" class="wrap">
             <p class="eyebrow" style="margin-top: 30px;">skills</p>
             <h2>Toolkit</h2>
             <p class="section-sub">Signal strength is a rough guide to depth, not a ceiling, I'm building all of
@@ -942,7 +1235,7 @@
                         </span>
                     </div>
                     <p class="skill-desc">
-                        CCybersecuity fundamentals, access
+                        Cybersecurity fundamentals, access
                         control, and a growing interest in security hardening.
                     </p>
                 </div>
@@ -960,7 +1253,7 @@
                     </p>
                 </div>
 
-                <div class="skill-card" style="margin-bottom:30px;">
+                <div class="skill-card">
                     <div class="skill-head">
                         <span class="skill-name">AI Security</span>
                         <span class="skill-bars" aria-label="proficiency 3 of 5">
@@ -972,7 +1265,7 @@
                     </p>
                 </div>
 
-                <div class="skill-card" style="margin-bottom : 30px;">
+                <div class="skill-card">
                     <div class="skill-head">
                         <span class="skill-name">Tools &amp; Workflow</span>
                         <span class="skill-bars" aria-label="proficiency 4 of 5">
@@ -989,18 +1282,27 @@
         </section>
 
         <!-- PROJECTS -->
-        <section id="projects" class="wrap reveal">
+        <section id="projects" class="wrap">
             <p class="eyebrow" style="margin-top: 30px;">projects</p>
             <h2>Recent work</h2>
-            <p class="section-sub">A scan of what I've shipped recently personal and client projects.</p>
+            <p class="section-sub">A scan of what I've shipped recently — personal and client projects.</p>
 
-            <div class="projects-list" style="margin-bottom : 30px;">
+            <div class="scan-head">
+                <div>$ <span class="scan-cmd">nmap -sV -p- yeta.dev</span></div>
+                <div class="scan-status">4 services found on host — all open, all live</div>
+            </div>
+            <div class="scan-cols">
+                <span class="col-port">PORT</span><span class="col-state">STATE</span><span
+                    class="col-service">SERVICE</span><span>VERSION</span>
+            </div>
+
+            <div class="projects-list" id="projectsList">
 
                 <a href="#" class="project-link" target="_blank" rel="noopener">
                     <div class="project-card">
                         <div class="project-port">
-                            Click to visit Site
-                            <div class="status"><span class="dot"></span>open</div>
+                            <span class="port-num">3000/tcp</span>
+                            <div class="port-state"><span class="dot"></span>open</div>
                         </div>
                         <div>
                             <div class="project-title">CropIQ</div>
@@ -1022,8 +1324,8 @@
                 <a href="https://yetaaa222.github.io/swim-zambia/" class="project-link" target="_blank" rel="noopener">
                     <div class="project-card">
                         <div class="project-port">
-                            Click to visit Site
-                            <div class="status"><span class="dot"></span>open</div>
+                            <span class="port-num">8080/tcp</span>
+                            <div class="port-state"><span class="dot"></span>open</div>
                         </div>
                         <div>
                             <div class="project-title">Swim Zambia Academy</div>
@@ -1045,8 +1347,8 @@
                     rel="noopener">
                     <div class="project-card">
                         <div class="project-port">
-                            Click to visit Site
-                            <div class="status"><span class="dot"></span>open</div>
+                            <span class="port-num">8443/tcp</span>
+                            <div class="port-state"><span class="dot"></span>open</div>
                         </div>
                         <div>
                             <div class="project-title">Silverestplace Apartment</div>
@@ -1066,8 +1368,8 @@
                 <a href="https://yetaaa222.github.io/muyakas-blog/" class="project-link" target="_blank" rel="noopener">
                     <div class="project-card">
                         <div class="project-port">
-                            Click to visit Site
-                            <div class="status"><span class="dot"></span>open</div>
+                            <span class="port-num">4433/tcp</span>
+                            <div class="port-state"><span class="dot"></span>open</div>
                         </div>
                         <div>
                             <div class="project-title">GRC Consulting Site</div>
@@ -1088,7 +1390,7 @@
         </section>
 
         <!-- EDUCATION / EXPERIENCE -->
-        <section id="education" class="wrap reveal">
+        <section id="education" class="wrap">
             <p class="eyebrow" style="margin-top: 30px;">education &amp; experience</p>
             <h2>Log</h2>
             <p class="section-sub">A timeline of where I've been studying and working.</p>
@@ -1133,7 +1435,7 @@
         </section>
 
         <!-- CONTACT -->
-        <section id="contact" class="wrap reveal">
+        <section id="contact" class="wrap">
             <p class="eyebrow" style="margin-top: 30px;">contact</p>
             <h2>Get in touch</h2>
             <p class="section-sub">Open to internships, junior sysadmin roles, and freelance web projects.</p>
@@ -1164,11 +1466,13 @@
     </main>
 
     <footer>
-        &copy; <span id="year"></span> Mutumwenu Yeta built with HTML, CSS &amp; JS
+        &copy; <span id="year"></span> Mutumwenu Yeta — built with HTML, CSS &amp; JS
     </footer>
 
     <script>
-        // mobile nav toggle
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // ---------- mobile nav toggle ----------
         const navToggle = document.getElementById('navToggle');
         const navLinks = document.getElementById('navLinks');
         navToggle.addEventListener('click', () => {
@@ -1181,33 +1485,11 @@
                 navToggle.setAttribute('aria-expanded', false);
             }
         });
+        document.getElementById('brandBtn').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+        });
 
-        // Lusaka clock (CAT, UTC+2, no DST)
-        function updateClock() {
-            const now = new Date();
-            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            const lusaka = new Date(utc + (2 * 3600000));
-            const hh = String(lusaka.getHours()).padStart(2, '0');
-            const mm = String(lusaka.getMinutes()).padStart(2, '0');
-            const ss = String(lusaka.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').textContent = `Lusaka — ${hh}:${mm}:${ss}`;
-        }
-        updateClock();
-        setInterval(updateClock, 1000);
-
-        // scroll reveal
-        const revealEls = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.12 });
-        revealEls.forEach(el => observer.observe(el));
-
-        // copy email
+        // ---------- copy email ----------
         document.getElementById('copyEmail').addEventListener('click', () => {
             const val = document.getElementById('emailVal').textContent;
             navigator.clipboard.writeText(val).then(() => {
@@ -1218,8 +1500,216 @@
             });
         });
 
-        // footer year
+        // ---------- footer year ----------
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        // ---------- scan-reveal for project cards (nmap discovering ports) ----------
+        const cards = document.querySelectorAll('.project-card');
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(cards).indexOf(entry.target);
+                    setTimeout(() => entry.target.classList.add('scanned'), reduceMotion ? 0 : index * 140);
+                    cardObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        cards.forEach((c) => cardObserver.observe(c));
+
+        // =========================================================
+        // INTERACTIVE BOOT TERMINAL
+        // =========================================================
+        const bootLog = document.getElementById('bootLog');
+        const termBody = document.getElementById('termBody');
+        const termHistory = document.getElementById('termHistory');
+        const termInputRow = document.getElementById('termInputRow');
+        const termInput = document.getElementById('termInput');
+
+        const bootLines = [
+            { text: '[ boot ] initializing yeta@portfolio...', cls: '' },
+            { text: '[ ok ]   mounting /about............... done', cls: 'boot-ok' },
+            { text: '[ ok ]   mounting /skills.............. done', cls: 'boot-ok' },
+            { text: '[ ok ]   mounting /projects............ done', cls: 'boot-ok' },
+            { text: '[ ok ]   establishing secure session.... done', cls: 'boot-ok' },
+            { text: '', cls: '' },
+            { text: 'welcome, guest. type "help" to look around.', cls: 'boot-dim' },
+        ];
+
+        function scrollTermToBottom() {
+            termBody.scrollTop = termBody.scrollHeight;
+        }
+
+        async function typeLine(lineObj) {
+            const div = document.createElement('div');
+            if (lineObj.cls) div.className = lineObj.cls;
+            bootLog.appendChild(div);
+
+            if (reduceMotion || lineObj.text === '') {
+                div.textContent = lineObj.text;
+                scrollTermToBottom();
+                return;
+            }
+            for (let i = 0; i < lineObj.text.length; i++) {
+                div.textContent += lineObj.text[i];
+                scrollTermToBottom();
+                await new Promise((r) => setTimeout(r, 10));
+            }
+        }
+
+        async function runBoot() {
+            for (const line of bootLines) {
+                await typeLine(line);
+                await new Promise((r) => setTimeout(r, reduceMotion ? 0 : 120));
+            }
+            termInputRow.style.display = 'flex';
+            if (!reduceMotion && window.innerWidth > 760) termInput.focus();
+        }
+
+        const sections = {
+            about: '#about', skills: '#skills', projects: '#projects',
+            education: '#education', contact: '#contact'
+        };
+
+        function jumpTo(id) {
+            const el = document.querySelector(sections[id]);
+            if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+        }
+
+        const files = {
+            'about.md': `Mutumwenu Yeta — BSc IT graduate, University of Lusaka.
+Focus: networking, Linux/sysadmin, security, web dev.
+Currently on the B360 Career Bridge Program.`,
+            'skills.json': `{ "networking": 4, "linux_sysadmin": 4, "security": 3, "web_dev": 4, "ai_security": 3 }`,
+            'education.log': `2022-2026  University of Lusaka (UNILUS) — BSc IT
+2026       B360 Career Bridge Program — internship placement
+ongoing    Freelance web developer — Zambia`,
+            'contact.conf': `email    = myeta2004@gmail.com
+github   = github.com/Yetaaa222
+location = Lusaka, Zambia
+status   = available_for_internship = true`
+        };
+
+        function neofetchOutput() {
+            return `guest@yeta-portfolio
+---------------------
+OS: Arch Linux x86_64
+Host: HP EliteBook 840 G6 (SBKPFV3)
+CPU: Intel(R) Core(TM) i5-8265U (8) @ 3.90 GHz
+GPU: Intel UHD Graphics 620 @ 1.10 GHz [Integrated]
+Memory: 3.04 GiB / 7.56 GiB
+Shell: zsh
+Operator: Mutumwenu Yeta`;
+        }
+
+        const commandList = ['help', 'about', 'skills', 'projects', 'education', 'contact',
+            'neofetch', 'whoami', 'ls', 'cat', 'cd', 'clear', 'github'];
+
+        function runCommand(raw) {
+            const trimmed = raw.trim();
+            const [cmd, ...rest] = trimmed.split(/\s+/);
+            const arg = rest.join(' ');
+            const lower = (cmd || '').toLowerCase();
+
+            if (!lower) return '';
+
+            switch (lower) {
+                case 'help':
+                    return `available commands:
+  about                who I am
+  skills               technical toolkit
+  projects             recent work, nmap-style
+  education            timeline
+  contact              how to reach me
+  neofetch             system info
+  whoami               guess again
+  ls                   list sections as files
+  cat <file>           view a section as a file
+  cd <section>         jump to a section
+  clear                clear the screen`;
+                case 'about':
+                    jumpTo('about');
+                    return files['about.md'];
+                case 'skills':
+                    jumpTo('skills');
+                    return files['skills.json'];
+                case 'projects':
+                    jumpTo('projects');
+                    return `4 open ports found — scroll down or check the projects section.`;
+                case 'education':
+                    jumpTo('education');
+                    return files['education.log'];
+                case 'contact':
+                    jumpTo('contact');
+                    return files['contact.conf'];
+                case 'neofetch':
+                    return neofetchOutput();
+                case 'whoami':
+                    return `guest — probably a recruiter, a hiring manager, or a fellow nerd. either way, hi.`;
+                case 'ls':
+                    return Object.keys(files).join('   ');
+                case 'cat':
+                    if (!arg) return 'usage: cat <file>  (try "ls" to see what exists)';
+                    if (files[arg]) return files[arg];
+                    return `cat: ${arg}: no such file`;
+                case 'cd':
+                    if (sections[arg]) { jumpTo(arg); return `moved to ${arg}/`; }
+                    return `cd: ${arg || ''}: no such section — try: about, skills, projects, education, contact`;
+                case 'sudo':
+                    return `guest is not in the sudoers file. this incident will be reported. (kidding. nice try though.)`;
+                case 'clear':
+                    termHistory.innerHTML = '';
+                    return null;
+                case 'github':
+                    window.open('https://github.com/Yetaaa222', '_blank', 'noopener');
+                    return 'opening github.com/Yetaaa222 ...';
+                case 'exit':
+                case 'logout':
+                    return `can't exit a portfolio that easily. try "contact" instead.`;
+                default:
+                    return `command not found: ${lower}  (type "help" for a list)`;
+            }
+        }
+
+        function pushHistory(cmdText, output) {
+            const cmdDiv = document.createElement('div');
+            cmdDiv.className = 'hist-cmd';
+            cmdDiv.innerHTML = `<span class="prompt-user">guest</span><span style="color:var(--muted);">@yeta-portfolio:</span><span class="prompt-path">~$</span> ${cmdText.replace(/</g, '&lt;')}`;
+            termHistory.appendChild(cmdDiv);
+
+            if (output !== null && output !== undefined) {
+                const outDiv = document.createElement('div');
+                outDiv.className = 'hist-out';
+                outDiv.textContent = output;
+                termHistory.appendChild(outDiv);
+            }
+            scrollTermToBottom();
+        }
+
+        termInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const val = termInput.value;
+                if (!val.trim()) return;
+                const output = runCommand(val);
+                if (val.trim().toLowerCase() !== 'clear') {
+                    pushHistory(val, output);
+                }
+                termInput.value = '';
+            }
+        });
+
+        // "/" focuses the terminal from anywhere, like a command palette
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement !== termInput) {
+                const tag = document.activeElement.tagName;
+                if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+                    e.preventDefault();
+                    document.getElementById('hero-term').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+                    termInput.focus();
+                }
+            }
+        });
+
+        runBoot();
     </script>
 
 </body>
