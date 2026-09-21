@@ -505,6 +505,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
+
         }
 
         .skill-card {
@@ -515,6 +516,7 @@
         }
 
         .skill-head {
+
             display: flex;
             justify-content: space-between;
             align-items: baseline;
@@ -583,6 +585,16 @@
             gap: 14px;
         }
 
+        .project-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .project-link:hover {
+            text-decoration: none;
+        }
+
         .project-card {
             border: 1px solid var(--border);
             border-radius: 10px;
@@ -591,11 +603,13 @@
             display: grid;
             grid-template-columns: 120px 1fr;
             gap: 24px;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
         }
 
         .project-card:hover {
             border-color: var(--accent);
+            background: var(--surface-2);
+            transform: translateY(-2px);
         }
 
         .project-port {
@@ -802,21 +816,21 @@
                     </div>
                     <p class="eyebrow">final-year it student · lusaka, zambia</p>
                     <h1 class="hero-name">Mutumwenu <span class="accent">Yeta</span></h1>
-                    <p class="hero-role">Networking · Cybersecurity · Systems Administration · Web Development</p>
+                    <p class="hero-role">Networking · Cybersecurity · AI Security · Systems Administration · Web Development</p>
                     <p class="hero-bio">
-                        BSc Information Technology student at the University of Lusaka, building
+                        BSc Information Technology Graduate from the University of Lusaka, building
                         a foundation across networks, Linux systems, and security while
                         shipping real web and mobile projects for clients in Zambia along the way.
                         Currently completing an internship placement through the B360 Career
                         Bridge Program.
                     </p>
                     <div class="hero-cta">
-                        <a class="btn btn-primary" href="#projects">view projects</a>
-                        <a class="btn btn-ghost" href="#contact">get in touch</a>
+                        <a class="btn btn-primary" href="#projects" style="margin-bottom:30px;">view projects</a>
+                        <a class="btn btn-ghost" href="#contact" style="margin-bottom:30px;">get in touch</a>
                     </div>
                 </div>
 
-                <div class="term">
+                <div class="term" style="margin-bottom : 30px;">
                     <div class="term-bar">
                         <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
                         <span class="term-title">yeta@archlinux</span>
@@ -824,8 +838,7 @@
                     <div class="term-body">
                         <div class="term-row"><span class="term-key">$ neofetch</span></div>
 
-                        <div class="term-row"><span class="term-key">Role</span><span class="term-val">BSc IT &mdash;
-                                Final Year, UNILUS</span></div>
+                        <div class="term-row"><span class="term-key">Role</span><span class="term-val">BSc IT Graduate, UNILUS</span></div>
                         <div class="term-row"><span class="term-key">Focus</span><span
                                 class="term-val accent">Networking / Security / SysAdmin / Web</span></div>
                         <div class="term-row"><span class="term-key">Program</span><span class="term-val">B360 Career
@@ -844,14 +857,14 @@
 
         <!-- ABOUT -->
         <section id="about" class="wrap reveal">
-            <p class="eyebrow">about</p>
+            <p class="eyebrow" style="margin-top: 30px;">about</p>
             <h2>A bit of background</h2>
             <p class="section-sub">What I'm working on and where I come from.</p>
 
             <div class="about-grid">
                 <div>
                     <p>
-                        I'm in my final year of a BSc in Information Technology at the
+                        I'm a recent graduate with a BSc in Information Technology from the
                         University of Lusaka, with coursework spanning IT security, systems
                         administration, and enterprise networking from configuring
                         Active Directory and DNS/DHCP on Windows Server to designing
@@ -877,21 +890,18 @@
                         <div class="stat-num">2026</div>
                         <div class="stat-label">expected graduation — UNILUS</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" style="margin-bottom : 30px;">
                         <div class="stat-num">4</div>
-                        <div class="stat-label">shipped client &amp; personal projects</div>
+                        <div class="stat-label">personal projects</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-num">Arch</div>
-                        <div class="stat-label">daily driver btw</div>
-                    </div>
+
                 </div>
             </div>
         </section>
 
         <!-- SKILLS -->
         <section id="skills" class="wrap reveal">
-            <p class="eyebrow">skills</p>
+            <p class="eyebrow" style="margin-top: 30px;">skills</p>
             <h2>Toolkit</h2>
             <p class="section-sub">Signal strength is a rough guide to depth, not a ceiling, I'm building all of
                 these.</p>
@@ -950,20 +960,19 @@
                     </p>
                 </div>
 
-                <div class="skill-card">
+                <div class="skill-card" style="margin-bottom:30px;">
                     <div class="skill-head">
-                        <span class="skill-name">Cloud &amp; Backend</span>
+                        <span class="skill-name">AI Security</span>
                         <span class="skill-bars" aria-label="proficiency 3 of 5">
                             <i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i>
                         </span>
                     </div>
                     <p class="skill-desc">
-                        Supabase for auth, databases, and edge functions; integrating
-                        external APIs like the Claude API and Open-Meteo.
+                        Identifying prompt injection and supply chain vulnerabilities, implementing strict input/output guardrails, and securing LLM integration pipelines and API endpoints against data leakage.
                     </p>
                 </div>
 
-                <div class="skill-card">
+                <div class="skill-card" style="margin-bottom : 30px;">
                     <div class="skill-head">
                         <span class="skill-name">Tools &amp; Workflow</span>
                         <span class="skill-bars" aria-label="proficiency 4 of 5">
@@ -981,97 +990,106 @@
 
         <!-- PROJECTS -->
         <section id="projects" class="wrap reveal">
-            <p class="eyebrow">projects</p>
+            <p class="eyebrow" style="margin-top: 30px;">projects</p>
             <h2>Recent work</h2>
             <p class="section-sub">A scan of what I've shipped recently personal and client projects.</p>
 
-            <div class="projects-list">
+            <div class="projects-list" style="margin-bottom : 30px;">
 
-                <div class="project-card">
-                    <div class="project-port">
-                        PORT 8080/tcp
-                        <div class="status"><span class="dot"></span>open</div>
-                    </div>
-                    <div>
-                        <div class="project-title">CropIQ</div>
-                        <p class="project-desc">
-                            An AI-powered mobile app helping Zambian smallholder farmers choose
-                            crops based on rainfall, soil type, temperature, and farm size,
-                            using a weighted scoring engine with seasonal adjustment.
-                        </p>
-                        <div class="tag-row">
-                            <span class="tag">Flutter / Dart</span>
-                            <span class="tag">Supabase</span>
-                            <span class="tag">Claude API</span>
-                            <span class="tag">Open-Meteo</span>
+                <a href="#" class="project-link" target="_blank" rel="noopener">
+                    <div class="project-card">
+                        <div class="project-port">
+                            Click to visit Site
+                            <div class="status"><span class="dot"></span>open</div>
+                        </div>
+                        <div>
+                            <div class="project-title">CropIQ</div>
+                            <p class="project-desc">
+                                An AI-powered mobile app helping Zambian smallholder farmers choose
+                                crops based on rainfall, soil type, temperature, and farm size,
+                                using a weighted scoring engine with seasonal adjustment.
+                            </p>
+                            <div class="tag-row">
+                                <span class="tag">Flutter / Dart</span>
+                                <span class="tag">Supabase</span>
+                                <span class="tag">Claude API</span>
+                                <span class="tag">Open-Meteo</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="project-card">
-                    <div class="project-port">
-                        PORT 443/tcp
-                        <div class="status"><span class="dot"></span>open</div>
-                    </div>
-                    <div>
-                        <div class="project-title">Swim Zambia Academy</div>
-                        <p class="project-desc">
-                            A swim academy website with animated wave dividers, interactive
-                            booking modals, animated stat counters, and a live session-cost
-                            calculator.
-                        </p>
-                        <div class="tag-row">
-                            <span class="tag">Bootstrap 5</span>
-                            <span class="tag">JavaScript</span>
-                            <span class="tag">GitHub Pages</span>
+                <a href="https://yetaaa222.github.io/swim-zambia/" class="project-link" target="_blank" rel="noopener">
+                    <div class="project-card">
+                        <div class="project-port">
+                            Click to visit Site
+                            <div class="status"><span class="dot"></span>open</div>
+                        </div>
+                        <div>
+                            <div class="project-title">Swim Zambia Academy</div>
+                            <p class="project-desc">
+                                A swim academy website with animated wave dividers, interactive
+                                booking modals, animated stat counters, and a live session-cost
+                                calculator.
+                            </p>
+                            <div class="tag-row">
+                                <span class="tag">Bootstrap 5</span>
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">GitHub Pages</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="project-card">
-                    <div class="project-port">
-                        PORT 8443/tcp
-                        <div class="status"><span class="dot"></span>open</div>
-                    </div>
-                    <div>
-                        <div class="project-title">Silverestplace Apartment</div>
-                        <p class="project-desc">
-                            A property website for a Lusaka apartment, built to give potential
-                            guests a clean overview of the space, amenities, and how to get in
-                            touch.
-                        </p>
-                        <div class="tag-row">
-                            <span class="tag">Bootstrap 5</span>
-                            <span class="tag">HTML / CSS</span>
+                <a href="https://yetaaa222.github.io/silverest_place-website/" class="project-link" target="_blank"
+                    rel="noopener">
+                    <div class="project-card">
+                        <div class="project-port">
+                            Click to visit Site
+                            <div class="status"><span class="dot"></span>open</div>
+                        </div>
+                        <div>
+                            <div class="project-title">Silverestplace Apartment</div>
+                            <p class="project-desc">
+                                A property website for a Lusaka apartment, built to give potential
+                                guests a clean overview of the space, amenities, and how to get in
+                                touch.
+                            </p>
+                            <div class="tag-row">
+                                <span class="tag">Bootstrap 5</span>
+                                <span class="tag">HTML / CSS</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="project-card">
-                    <div class="project-port">
-                        PORT 22/tcp
-                        <div class="status"><span class="dot"></span>open</div>
-                    </div>
-                    <div>
-                        <div class="project-title">GRC Consulting Site</div>
-                        <p class="project-desc">
-                            A professional website for a governance, risk, and compliance
-                            consultant built to present services and credentials
-                            clearly to prospective clients.
-                        </p>
-                        <div class="tag-row">
-                            <span class="tag">Bootstrap 5</span>
-                            <span class="tag">HTML / CSS</span>
+                <a href="https://yetaaa222.github.io/muyakas-blog/" class="project-link" target="_blank" rel="noopener">
+                    <div class="project-card">
+                        <div class="project-port">
+                            Click to visit Site
+                            <div class="status"><span class="dot"></span>open</div>
+                        </div>
+                        <div>
+                            <div class="project-title">GRC Consulting Site</div>
+                            <p class="project-desc">
+                                A professional website for a governance, risk, and compliance
+                                consultant built to present services and credentials
+                                clearly to prospective clients.
+                            </p>
+                            <div class="tag-row">
+                                <span class="tag">Bootstrap 5</span>
+                                <span class="tag">HTML / CSS</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
 
             </div>
         </section>
 
         <!-- EDUCATION / EXPERIENCE -->
         <section id="education" class="wrap reveal">
-            <p class="eyebrow">education &amp; experience</p>
+            <p class="eyebrow" style="margin-top: 30px;">education &amp; experience</p>
             <h2>Log</h2>
             <p class="section-sub">A timeline of where I've been studying and working.</p>
 
@@ -1083,8 +1101,7 @@
                         <p class="log-body">
                             Accepted into a structured internship placement program
                             connecting UNILUS students with companies in Europe. Completed
-                            the Career Starter Workshop onboarding, signed the program MoU,
-                            and attended the kick-off call.
+                            the Career Starter Workshop onboarding.
                         </p>
                     </div>
                 </div>
@@ -1117,7 +1134,7 @@
 
         <!-- CONTACT -->
         <section id="contact" class="wrap reveal">
-            <p class="eyebrow">contact</p>
+            <p class="eyebrow" style="margin-top: 30px;">contact</p>
             <h2>Get in touch</h2>
             <p class="section-sub">Open to internships, junior sysadmin roles, and freelance web projects.</p>
 
