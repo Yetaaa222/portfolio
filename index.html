@@ -793,6 +793,11 @@
             color: var(--ok);
         }
 
+        .scan-head .scan-hint {
+            margin-top: 4px;
+            color: var(--muted);
+        }
+
         .scan-cols {
             display: none;
             font-family: var(--mono);
@@ -852,12 +857,17 @@
             background: var(--surface);
             padding: 22px 24px;
             display: grid;
-            grid-template-columns: 120px 1fr;
+            grid-template-columns: 120px 1fr 220px;
             gap: 24px;
+            align-items: start;
             border-top: 1px solid var(--border);
             transition: background 0.2s ease;
             opacity: 0;
             transform: translateX(-8px);
+        }
+
+        .project-card.no-thumb {
+            grid-template-columns: 120px 1fr;
         }
 
         .project-link:first-child .project-card {
@@ -870,11 +880,15 @@
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
-        .project-link:hover .project-card {
+        a.project-link:hover .project-card {
             background: var(--surface-2);
         }
 
-        .project-link:hover .port-num {
+        a.project-link:hover .port-num {
+            color: var(--accent);
+        }
+
+        a.project-link:hover .project-title {
             color: var(--accent);
         }
 
@@ -911,6 +925,7 @@
             font-size: 16px;
             color: var(--text);
             margin-bottom: 6px;
+            transition: color 0.2s ease;
         }
 
         .project-desc {
@@ -933,6 +948,67 @@
             border: 1px solid rgba(79, 203, 224, 0.25);
             border-radius: 5px;
             padding: 3px 8px;
+        }
+
+        /* thumbnails */
+        .thumb-wrap {
+            overflow: hidden;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+        }
+
+        .project-thumb {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        a.project-link:hover .thumb-wrap {
+            border-color: var(--accent);
+        }
+
+        a.project-link:hover .project-thumb {
+            transform: scale(1.04);
+        }
+
+        /* "view live" cue */
+        .visit {
+            display: inline-block;
+            margin-top: 14px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--accent);
+        }
+
+        .visit .arrow {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        a.project-link:hover .visit .arrow {
+            transform: translateX(4px);
+        }
+
+        .visit.private {
+            color: var(--warn);
+        }
+
+        @media (max-width:860px) {
+
+            .project-card,
+            .project-card.no-thumb {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .thumb-wrap {
+                order: -1;
+            }
         }
 
         @media (max-width:640px) {
@@ -1088,9 +1164,10 @@
                             onerror="this.style.display='none'; this.parentElement.classList.add('fallback');">
                         <span class="avatar-initials">MY</span>
                     </div>
-                    <p class="eyebrow">final-year it student · lusaka, zambia</p>
+                    <p class="eyebrow">it graduate · lusaka, zambia</p>
                     <h1 class="hero-name">Mutumwenu <span class="accent">Yeta</span></h1>
-                    <p class="hero-role">Networking · Cybersecurity · AI Security · Systems Administration · Web Development</p>
+                    <p class="hero-role">Networking · Cybersecurity · AI Security · Systems Administration · Web
+                        Development</p>
                     <p class="hero-bio">
                         BSc Information Technology Graduate from the University of Lusaka, building
                         a foundation across networks, Linux systems, and security while
@@ -1117,9 +1194,8 @@
                                     style="color:var(--muted);">@yeta-portfolio</span><span
                                     style="color:var(--muted);">:</span><span
                                     style="color:var(--accent);">~$</span></span>
-                            <input class="term-input" id="termInput" type="text" autocomplete="off"
-                                autocapitalize="off" spellcheck="false"
-                                aria-label="Portfolio terminal — type help and press enter">
+                            <input class="term-input" id="termInput" type="text" autocomplete="off" autocapitalize="off"
+                                spellcheck="false" aria-label="Portfolio terminal — type help and press enter">
                         </div>
                     </div>
                 </div>
@@ -1240,7 +1316,8 @@
                         </span>
                     </div>
                     <p class="skill-desc">
-                        Identifying prompt injection and supply chain vulnerabilities, implementing strict input/output guardrails, and securing LLM integration pipelines and API endpoints against data leakage.
+                        Identifying prompt injection and supply chain vulnerabilities, implementing strict input/output
+                        guardrails, and securing LLM integration pipelines and API endpoints against data leakage.
                     </p>
                 </div>
 
@@ -1267,8 +1344,9 @@
             <p class="section-sub">A scan of what I've shipped recently — personal and client projects.</p>
 
             <div class="scan-head">
-                <div>$ <span class="scan-cmd">nmap -sV -p- yeta.dev</span></div>
+                <div>$ <span class="scan-cmd">nmap -sV -p- mutumwenu.shop</span></div>
                 <div class="scan-status">4 services found on host — all open, all live</div>
+                <div class="scan-hint"># click any open port to connect</div>
             </div>
             <div class="scan-cols">
                 <span class="col-port">PORT</span><span class="col-state">STATE</span><span
@@ -1277,30 +1355,37 @@
 
             <div class="projects-list" id="projectsList">
 
-                <a href="#" class="project-link" target="_blank" rel="noopener">
+                <a href="https://yetaaa222.github.io/swim-zambia//" class="project-link" target="_blank" rel="noopener"
+                    aria-label="Swim Zambia Academy — view live site">
                     <div class="project-card">
                         <div class="project-port">
                             <span class="port-num">3000/tcp</span>
                             <div class="port-state"><span class="dot"></span>open</div>
                         </div>
                         <div>
-                            <div class="project-title">CropIQ</div>
+                            <div class="project-title">Swim Zambia Academy</div>
                             <p class="project-desc">
-                                An AI-powered mobile app helping Zambian smallholder farmers choose
-                                crops based on rainfall, soil type, temperature, and farm size,
-                                using a weighted scoring engine with seasonal adjustment.
+                                A website for a swimming academy in Zambia, with a session calculator,
+                                booking modal and testimonials carousel so prospective swimmers and
+                                parents can plan and enquire in one place. Built under Mwata.
                             </p>
                             <div class="tag-row">
-                                <span class="tag">Flutter / Dart</span>
-                                <span class="tag">Supabase</span>
-                                <span class="tag">Claude API</span>
-                                <span class="tag">Open-Meteo</span>
+                                <span class="tag">HTML / CSS</span>
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">Mwata</span>
                             </div>
+                            <span class="visit">view live <span class="arrow">→</span></span>
+                        </div>
+                        <div class="thumb-wrap">
+                            <img class="project-thumb" src="swim.png"
+                                alt="Screenshot of the Swim Zambia Academy website" width="440" height="275"
+                                loading="lazy" onerror="this.closest('.thumb-wrap').style.display='none';">
                         </div>
                     </div>
                 </a>
 
-                <a href="https://yetaaa222.github.io/atanga-solutions/" class="project-link" target="_blank" rel="noopener">
+                <a href="https://yetaaa222.github.io/atanga-solutions/" class="project-link" target="_blank"
+                    rel="noopener" aria-label="Atanga Solutions — view live site">
                     <div class="project-card">
                         <div class="project-port">
                             <span class="port-num">8080/tcp</span>
@@ -1309,19 +1394,27 @@
                         <div>
                             <div class="project-title">Atanga Solutions</div>
                             <p class="project-desc">
-                               A loan calculator and informational website for a Lusaka-based financial services company, built to give potential clients a clear overview of the company's offerings and how to get in touch.
+                                A loan calculator and informational website for a Lusaka-based financial services
+                                company, built to give potential clients a clear overview of the company's offerings and
+                                how to get in touch.
                             </p>
                             <div class="tag-row">
                                 <span class="tag">HTML</span>
                                 <span class="tag">JavaScript</span>
                                 <span class="tag">GitHub Pages</span>
                             </div>
+                            <span class="visit">view live <span class="arrow">→</span></span>
+                        </div>
+                        <div class="thumb-wrap">
+                            <img class="project-thumb" src="loans.png"
+                                alt="Screenshot of the Atanga Solutions loan calculator website" width="440"
+                                height="275" loading="lazy" onerror="this.closest('.thumb-wrap').style.display='none';">
                         </div>
                     </div>
                 </a>
 
                 <a href="https://yetaaa222.github.io/silverest_place-website/" class="project-link" target="_blank"
-                    rel="noopener">
+                    rel="noopener" aria-label="Silverestplace Apartment — view live site">
                     <div class="project-card">
                         <div class="project-port">
                             <span class="port-num">8443/tcp</span>
@@ -1338,11 +1431,18 @@
                                 <span class="tag">Bootstrap 5</span>
                                 <span class="tag">HTML / CSS</span>
                             </div>
+                            <span class="visit">view live <span class="arrow">→</span></span>
+                        </div>
+                        <div class="thumb-wrap">
+                            <img class="project-thumb" src="silverestplace.png"
+                                alt="Screenshot of the Silverestplace Apartment website" width="440" height="275"
+                                loading="lazy" onerror="this.closest('.thumb-wrap').style.display='none';">
                         </div>
                     </div>
                 </a>
 
-                <a href="https://yetaaa222.github.io/muyakas-blog/" class="project-link" target="_blank" rel="noopener">
+                <a href="https://yetaaa222.github.io/muyakas-blog/" class="project-link" target="_blank" rel="noopener"
+                    aria-label="GRC Consulting Site — view live site">
                     <div class="project-card">
                         <div class="project-port">
                             <span class="port-num">4433/tcp</span>
@@ -1359,6 +1459,12 @@
                                 <span class="tag">Bootstrap 5</span>
                                 <span class="tag">HTML / CSS</span>
                             </div>
+                            <span class="visit">view live <span class="arrow">→</span></span>
+                        </div>
+                        <div class="thumb-wrap">
+                            <img class="project-thumb" src="muyaka.png" alt="Screenshot of the GRC consulting website"
+                                width="440" height="275" loading="lazy"
+                                onerror="this.closest('.thumb-wrap').style.display='none';">
                         </div>
                     </div>
                 </a>
@@ -1390,7 +1496,8 @@
                     <div>
                         <div class="log-title">Junior Developer at Mwata</div>
                         <p class="log-body">
-                           Part-time as a Junior Developer at Mwata, where I build projects and websites for multiple clients.
+                            Part-time as a Junior Developer at Mwata, where I build projects and websites for multiple
+                            clients.
                         </p>
                     </div>
                 </div>
@@ -1400,7 +1507,7 @@
                     <div>
                         <div class="log-title">University of Lusaka (UNILUS)</div>
                         <p class="log-body">
-                            BSc in Information Technology, final year coursework
+                            BSc in Information Technology, graduate coursework
                             covering networking, IT security, systems administration, and
                             software development.
                         </p>
@@ -1432,8 +1539,7 @@
                             rel="noopener">github.com/Yetaaa222</a></div>
                     <div class="conf-line"><span class="conf-key">location</span> <span class="conf-eq">=</span> <span
                             class="conf-val">Lusaka, Zambia</span></div>
-                    <div class="conf-line"><span class="conf-key">status</span> <span class="conf-eq">=</span> <span
-                            class="conf-val ok" style="color:var(--ok);">available_for_internship = true</span></div>
+
                 </div>
             </div>
         </section>
